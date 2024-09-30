@@ -1,0 +1,15 @@
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\bin\Debug\net8.0\linq.exe
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\bin\Debug\net8.0\linq.deps.json
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\bin\Debug\net8.0\linq.runtimeconfig.json
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\bin\Debug\net8.0\linq.dll
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\bin\Debug\net8.0\linq.pdb
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.AssemblyInfoInputs.cache
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.AssemblyInfo.cs
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.csproj.CoreCompileInputs.cache
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.sourcelink.json
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.dll
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\refint\linq.dll
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.pdb
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\linq.genruntimeconfig.cache
+C:\Users\Teclab\Documents\Educacion\curso-C#-platzi\5-Manejo-de-datos\linq\obj\Debug\net8.0\ref\linq.dll

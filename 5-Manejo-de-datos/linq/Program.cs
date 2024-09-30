@@ -1,104 +1,73 @@
+﻿
 LinqQueries queries = new LinqQueries();
 
-//Toda la coleccion
-//ImprimirValores(queries.TodaLaColeccion());
+// Obtenemos todos los libros
+//PrintBooks( queries.GetBooks() );
 
-//Libros despues del 2000
-//ImprimirValores(queries.LibrosDespuesdel2000());
+// Libros despues del 2000
+//PrintBooks( queries.GetBooksAfter2000() );
 
-//Libros que tienen mas de 250 pags y tienen en el titulo la palabra in action
-//ImprimirValores(queries.LibrosConMasde250PagConPalabrasInAction());
+// Libros que tienen mas de 250 pags y tienen en el titulo la palabra in action
+//PrintBooks( queries.GetBooksMore250PagesAndInAction() );
 
-//Todos los libros tienen Status
-//Console.WriteLine($" Todos los libros tienen status? - {queries.TodosLosLibrosTienenStatus()}");
+// obtener Todos los libros que tienen un valor en Status
+//Console.WriteLine( $" Tienen todos los libros un status? - {queries.AllBooksHaveStatus()}" );
 
-//Si algun libro fue publicado en 2005
-//Console.WriteLine($" Algun libro fue publicado en 2005? - {queries.SiAlgunLibroFuePublicado2005()}");
+// Si algun libro fue publicado en 2005
+//Console.WriteLine($" Hay algun libro publicado en 2005? - {queries.AnyBookPublishedIn2005()}");
 
-
-//Libros de python
-//ImprimirValores(queries.LibrosdePython());
+//Libros de categoria python
+//PrintBooks( queries.booksCategoryPython() );
+// Libros definiendo categoria
+//PrintBooks( queries.booksByCategory("Java") );
 
 //libros de Java ordenados por nombre
-//ImprimirValores(queries.LibrosdeJavaPorNombreAscendente());
+//PrintBooks( queries.booksJavaOrderedByName() );
 
 //libros que tienen mas de 450 paginas ordernados por cantidad de paginas
-//ImprimirValores(queries.Librosmasde450pagOrdernadorPorNumPagDescendente());
+// PrintBooks( queries.booksMore450PagesOrderedByPageCount() );
 
 //los 3  libros de Java publicados recientemente
-//ImprimirValores(queries.TresPrimerosLibrosJavaOrdenadosPorFecha());
+// PrintBooks( queries.threeFirstBooksOrderByDate() );
 
-//tercer y caurto libro con mas de 400 paginas
-//ImprimirValores(queries.TerceryCuartoLibroDeMas400Pag());
+//tercer y cuarto libro con mas de 400 paginas
+// PrintBooks( queries.threeAndFourtBookWithMore400Pages() );
 
-//tres primeros libros filtrados con Select
-//ImprimirValores(queries.TresPrimeroLibrosDeLaCollecion());
+//titulo y numero paginas de los tres primeros libros filtrados
+// PrintBooks( queries.titlePageThreeFirstBooks() );
 
 //cantidad de libros que tienen entre 200 y 500 paginas
-//Console.WriteLine($"Cantidad de libros que tiene entre 200 y 500 pag. {queries.CantidadDeLibrosEntre200y500Pag()}");
+// Console.WriteLine( queries.countBooksBetween(200, 500) );
 
-// fecha de publicacion menor de todos los libros
-//Console.WriteLine($"Fecha de publicacion menor: {queries.FechaDePublicacionMenor()}");
+// menor fecha de publicacion de todos los libros
+// Console.WriteLine( queries.oldPublicationDate() );
 
 //Numero de paginas del libro con mayor Numero de paginas
-//Console.WriteLine($"El libro con mayor numero de paginas tiene: {queries.NumeroDePagLibroMayor()} paginas. ");
+// Console.WriteLine( $"El libro con mas paginas tiene: {queries.bookLargestNumberPages()}" );
 
 //Libro con menor numero de paginas
-//var libroMenorPag = queries.LibroConMenorNumeroDePaginas();
-//Console.WriteLine($"{libroMenorPag.Title} - {libroMenorPag.PageCount}");
+// Book bookPage = queries.BookWithLowerNumPage();
+// Console.WriteLine( $"{bookPage.Title} - {bookPage.PageCount}" );
 
 //Libro con fecha publicacion mas reciente
-//var libroFechaPubReciente = queries.LibroConFechaPublicacionMasReciente();
-//Console.WriteLine($"{libroFechaPubReciente.Title} - {libroFechaPubReciente.PublishedDate.ToShortDateString()}");
+// var bookMoreRecently = queries.bookMoreRecently();
+// Console.WriteLine($"{bookMoreRecently.Title} - {bookMoreRecently.PublishedDate.ToShortDateString()}");
 
 //suma de paginas de libros entre 0 y 500
-//Console.WriteLine($"Suma total de paginas {queries.SumaDeTodasLasPaginasLibrosEntre0y500()}");
+Console.WriteLine($"Suma total de paginas: {queries.addPages()}");
 
 //Libros publicados despues del 2015
-//Console.WriteLine(queries.TitulosDeLibrosDespuesDel2015Concatenados());
-
 //el promedio de caracteres del los titulos de los libros
-//Console.WriteLine($"promedio caracteres de los titulos: {queries.PromedioCaracteresTitulo()}");
-
 //Libros publicados a partir del 2000 agrupados por ano
-//ImprimirGrupo(queries.LibrosDespuesdel2000AgrupadosporAno());
-
 //Diccionario de libros agrupados por primera letra del titulo
-//var diccionarioLookup = queries.DiccionariosDeLibrosPorLetra();
-//ImprimirDiccionario(diccionarioLookup, 'Z');
-
-// libros filtradaor con la clausula join 
-ImprimirValores(queries.LibrosDespuesdel2005conmasde500Pags());
 
 
-void ImprimirValores(IEnumerable<Book> listadelibros)
+
+void PrintBooks(IEnumerable<Book> listBooks)
 {
-    Console.WriteLine("{0,-60} {1, 15} {2, 15}\n", "Titulo", "N. Paginas", "Fecha publicacion");
-    foreach (var item in listadelibros)
+     Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", "Title", "Num Pages", "Published Date");
+    foreach (var item in listBooks)
     {
-        Console.WriteLine("{0,-60} {1, 15} {2, 15}", item.Title, item.PageCount, item.PublishedDate.ToShortDateString());
-    }
-}
-
-void ImprimirGrupo(IEnumerable<IGrouping<int, Book>> ListadeLibros)
-{
-    foreach (var grupo in ListadeLibros)
-    {
-        Console.WriteLine("");
-        Console.WriteLine($"Grupo: {grupo.Key}");
-        Console.WriteLine("{0,-60} {1, 15} {2, 15}\n", "Titulo", "N. Paginas", "Fecha publicacion");
-        foreach (var item in grupo)
-        {
-            Console.WriteLine("{0,-60} {1, 15} {2, 15}", item.Title, item.PageCount, item.PublishedDate.Date.ToShortDateString());
-        }
-    }
-}
-
-void ImprimirDiccionario(ILookup<char, Book> ListadeLibros, char letra)
-{
-    Console.WriteLine("{0,-60} {1, 15} {2, 15}\n", "Titulo", "N. Paginas", "Fecha publicacion");
-    foreach (var item in ListadeLibros[letra])
-    {
-        Console.WriteLine("{0,-60} {1, 15} {2, 15}", item.Title, item.PageCount, item.PublishedDate.Date.ToShortDateString());
+        Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", item.Title, item.PageCount, item.PublishedDate.ToShortDateString());
     }
 }

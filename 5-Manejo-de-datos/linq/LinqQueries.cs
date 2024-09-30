@@ -1,153 +1,174 @@
+using System.Xml.Schema;
+
 public class LinqQueries
 {
-    private List<Book> librosCollection = new List<Book>();
+    // instanciamos una lista de libros del tipo book que es la clase que creamos en Books.cs
+    // con new List<Book>(); definimos que el valor no sera nulo sino un valor vacio.
+    private List<Book> booksCollections = new List<Book>();
+
 
     public LinqQueries()
     {
+        // new StreamReader("books.json") hace referencia al archivo books.json que esta en la raiz del proyecto
+        // El bloque using asegura que el StreamReader se cierre correctamente y libere los recursos del archivo cuando termines de usarlo, incluso si ocurre un error. Esto es importante para no mantener archivos abiertos innecesariamente.
         using (StreamReader reader = new StreamReader("books.json"))
         {
-            string json = reader.ReadToEnd();
-            this.librosCollection = System.Text.Json.JsonSerializer.Deserialize<List<Book>>(json, new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            string json = reader.ReadToEnd(); // leemos el archivo json
+            // System.Text.Json.JsonSerializer.Deserialize<T>: Este metodo toma una cadena en formato JSON (json en este caso) y la deserializa (convierte) en un objeto o coleccion de objetos de tipo T. En tu caso, T es List<Book>, lo que significa que convierte el JSON en una lista de objetos de tipo Book.
+            // List<Book>: Aqui le estas diciendo a Deserialize que espere que el JSON sea una representacion de una lista de objetos Book.
+            this.booksCollections = System.Text.Json.JsonSerializer.Deserialize<List<Book>>(
+                // json: Es la cadena que contiene el contenido del archivo JSON.
+                json, 
+                // El segundo parametro es para vincular el json que esta en camelCase con la clase Book que esta en PascalCase
+                // JsonSerializerOptions Esta es una clase que te permite configurar opciones sobre como se deserializa el JSON. Aqui estas creando una nueva instancia de JsonSerializerOptions con una propiedad especifica.
+                // PropertyNameCaseInsensitive = true: Esta opcion le dice al deserializador que ignore las diferencias de mayusculas y minusculas en los nombres de las propiedades del JSON. Es decir, si tu archivo JSON tiene algo como "title": "Some Book" y tu clase Book tiene una propiedad llamada Title (con mayuscula inicial), el deserializador aun podra hacer la correspondencia entre "title" en el JSON y Title en la clase Book. Esto es util porque en muchos casos, los nombres de las propiedades pueden tener diferencias en mayusculas y minusculas entre el codigo C# y el JSON.
+                new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+             ) ?? Enumerable.Empty<Book>().ToList();
+            //this.booksCollections = JsonConvert.DeserializeObject<List<Book>>(json);
         }
     }
 
-    public IEnumerable<Book> TodaLaColeccion()
+    public IEnumerable<Book> GetBooks()
     {
-        return librosCollection;
+        return this.booksCollections;
     }
 
-    public IEnumerable<Book> LibrosDespuesdel2000()
+    public IEnumerable<Book> GetBooksAfter2000()
     {
-        //extension method
-        //return librosCollection.Where(p=> p.PublishedDate.Year > 2000);
+        // extension method
+        // return this.booksCollections.Where(x => x.PublishedDate.Year > 2000);
 
-        //query expresion
-
-        return from l in librosCollection where l.PublishedDate.Year > 2000 select l;
+        // query expresion
+        return from l in this.booksCollections
+               where l.PublishedDate.Year > 2000
+               select l;
     }
 
-    public IEnumerable<Book> LibrosConMasde250PagConPalabrasInAction()
+    public IEnumerable<Book> GetBooksMore250PagesAndInAction()
     {
-        //extension methods
-        //return librosCollection.Where(p=> p.PageCount > 250 && p.Title.Contains("in Action"));
+        // extension method
+        //return this.booksCollections.Where(x => x.PageCount > 250 && x.Title.Contains("in Action") );
 
-        //query expression
-        return from l in librosCollection where l.PageCount > 250 && l.Title.Contains("in Action") select l;
+        // query expresion
+        return from l in this.booksCollections
+               where l.PageCount > 250 && l.Title.Contains("in Action")
+               select l;
     }
 
-    public bool TodosLosLibrosTienenStatus()
+    //public List<char> vocales = new List<char> { 'a', 'e', 'i', 'o', 'u' };
+    //public IEnumerable<Animales> getGreenAnimals()
+    //{
+    //    return this.animales.Where( 
+    //        an => an.Color.ToLower().Equals("verde") &&
+    //              vocales.Contains( an.Nombre.ToLower()[0] )
+    //    ).ToList();
+    //}
+
+    public bool AllBooksHaveStatus()
     {
-        return librosCollection.All(p => p.Status != string.Empty);
+        return booksCollections.All(x => x.Status != string.Empty);
     }
 
-    public bool SiAlgunLibroFuePublicado2005()
+    public bool AnyBookPublishedIn2005()
     {
-        return librosCollection.Any(p => p.PublishedDate.Year == 2005);
+        return booksCollections.Any(x => x.PublishedDate.Year == 2005);
     }
 
-    public IEnumerable<Book> LibrosdePython()
+    public IEnumerable<Book> booksCategoryPython()
     {
-        return librosCollection.Where(p => p.Categories.Contains("Python"));
+        return booksCollections.Where( x => x.Categories.Contains("Python") );
     }
 
-    public IEnumerable<Book> LibrosdeJavaPorNombreAscendente()
+    public IEnumerable<Book> booksByCategory(string category)
     {
-        return librosCollection.Where(p => p.Categories.Contains("Java")).OrderBy(p => p.Title);
+        return booksCollections.Where( x => x.Categories.Contains(category) );
     }
 
-    public IEnumerable<Book> Librosmasde450pagOrdernadorPorNumPagDescendente()
+    public IEnumerable<Book> booksJavaOrderedByName()
     {
-        return librosCollection.Where(p => p.PageCount > 450).OrderByDescending(p => p.PageCount);
+        return booksCollections.Where(x => x.Categories.Contains("Java")).OrderBy(x => x.Title);
     }
 
-    public IEnumerable<Book> TresPrimerosLibrosJavaOrdenadosPorFecha()
+    public IEnumerable<Book> booksMore450PagesOrderedByPageCount()
     {
-        return librosCollection
-        .Where(p => p.Categories.Contains("Java"))
-        .OrderBy(p => p.PublishedDate)
-        .TakeLast(3);
+        return booksCollections.Where(x => x.PageCount > 450).OrderByDescending(x => x.PageCount);
     }
 
-    public IEnumerable<Book> TerceryCuartoLibroDeMas400Pag()
+    // private List<Animal> void animales = new List<Animal>(); // inicializa una lista vacia
+    // animales.Add(new Animal() { Nombre: "Hormiga", Color: "Rojo"});
+    // animales.Add(new Animal() { Nombre: "Lobo", Color: "Gris"});
+    // // como estas se crean mas.....
+    // public AnimalsOrderedByName()
+    // {
+    //     return animales.OrderBy(x => x.Nombre);
+    // }
+    // public resultAnimals = AnimalsOrderedByName();
+    // resultAnimals.ToList().ForEach(animal => Console.WriteLine(animal.Nombre));
+
+    public IEnumerable<Book> threeFirstBooksOrderByDate()
     {
-        return librosCollection
-        .Where(p => p.PageCount > 400)
-        .Take(4)
-        .Skip(2);
+        return booksCollections
+            .Where(p => p.Categories.Contains("Java"))
+            // *forma 1 - take
+            // .OrderByDescending(p => p.PublishedDate)
+            // .Take(3);
+            // *forma 2 - takeLast
+            .OrderBy(p => p.PublishedDate)
+            .TakeLast(3);
+            // *takeWhile
+            // .TakeWhile(p => p.PageCount > 150); // traeria todos los que encuentre hasta que la condicion no se cumpla
     }
 
-    public IEnumerable<Book> TresPrimeroLibrosDeLaCollecion()
+    public IEnumerable<Book> threeAndFourtBookWithMore400Pages()
     {
-        return librosCollection.Take(3)
-        .Select(p => new Book() { Title = p.Title, PageCount = p.PageCount });
+        return booksCollections
+            .Where(l => l.PageCount > 400)
+            .Take(4)
+            .Skip(2);
+            // SkipLast()
+            // SkipWhile()
     }
 
-    public long CantidadDeLibrosEntre200y500Pag()
+    public IEnumerable<Book> titlePageThreeFirstBooks()
     {
-        return librosCollection.LongCount(p => p.PageCount >= 200 && p.PageCount <= 500);
+        return booksCollections
+            .Select(book => new Book() { Title = book.Title, PageCount = book.PageCount })
+            // .Select(book => new Book() { book.Title, book.PageCount })
+            .Take(3);
     }
 
-    public DateTime FechaDePublicacionMenor()
+    public int countBooksBetween(int start, int ending)
     {
-        return librosCollection.Min(p => p.PublishedDate);
+        return booksCollections.Count( b => b.PageCount >= start && b.PageCount <= ending );
+        // return booksCollections.LongCount( b => b.PageCount >= start && b.PageCount <= ending );
     }
 
-    public int NumeroDePagLibroMayor()
+    public DateTime oldPublicationDate()
     {
-        return librosCollection.Max(p => p.PageCount);
+        return booksCollections.Min( d => d.PublishedDate );
     }
 
-    public Book LibroConMenorNumeroDePaginas()
+    public int bookLargestNumberPages()
     {
-        return librosCollection.Where(p => p.PageCount > 0).MinBy(p => p.PageCount);
+        return booksCollections.Max( p => p.PageCount); // se pone ?? 0 porque el valor q
     }
 
-    public Book LibroConFechaPublicacionMasReciente()
+    public Book BookWithLowerNumPage()
     {
-        return librosCollection.MaxBy(p => p.PublishedDate);
+        return booksCollections
+            .Where( b => b.PageCount > 0)
+            .MinBy( b => b.PageCount);
     }
 
-    public int SumaDeTodasLasPaginasLibrosEntre0y500()
+    public Book bookMoreRecently()
     {
-        return librosCollection.Where(p => p.PageCount >= 0 && p.PageCount <= 500).Sum(p => p.PageCount);
+        return booksCollections.MaxBy(p => p.PublishedDate);
     }
 
-    public string TitulosDeLibrosDespuesDel2015Concatenados()
+    public int addPages()
     {
-        return librosCollection
-                .Where(p => p.PublishedDate.Year > 2015)
-                .Aggregate("", (TitulosLibros, next) =>
-                {
-                    if (TitulosLibros != string.Empty)
-                        TitulosLibros += " - " + next.Title;
-                    else
-                        TitulosLibros += next.Title;
-
-                    return TitulosLibros;
-                });
-    }
-
-    public double PromedioCaracteresTitulo()
-    {
-        return librosCollection.Average(p => p.Title.Length);
-    }
-
-    public IEnumerable<IGrouping<int, Book>> LibrosDespuesdel2000AgrupadosporAno()
-    {
-        return librosCollection.Where(p => p.PublishedDate.Year >= 2000).GroupBy(p => p.PublishedDate.Year);
-    }
-
-    public ILookup<char, Book> DiccionariosDeLibrosPorLetra()
-    {
-        return librosCollection.ToLookup(p => p.Title[0], p => p);
-    }
-
-    public IEnumerable<Book> LibrosDespuesdel2005conmasde500Pags()
-    {
-        var LibrosDepuesdel2005 = librosCollection.Where(p => p.PublishedDate.Year > 2005);
-
-        var LibrosConMasde500pag = librosCollection.Where(p => p.PageCount > 500);
-
-        return LibrosDepuesdel2005.Join(LibrosConMasde500pag, p => p.Title, x => x.Title, (p, x) => p);
+        return booksCollections
+            .Where(p => p.PageCount >= 0 && p.PageCount <= 500)
+            .Sum( t => t.PageCount);
     }
 }
