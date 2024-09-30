@@ -171,4 +171,13 @@ public class LinqQueries
             .Where(p => p.PageCount >= 0 && p.PageCount <= 500)
             .Sum( t => t.PageCount);
     }
+
+    public string titleBooksAftertwothousandfiveteenV1(Func<Book, bool>where)
+        => string.Join(" - ",this.booksCollections.Where(where).Select(x=> x.Title));
+    
+    public string titleBooksAftertwothousandfiveteenV2(Func<Book, bool> where)
+    {
+        return this.booksCollections.Where(where).Aggregate("", 
+            (acc, next) => acc += (!string.IsNullOrEmpty(acc) ? $" - {next.Title}" : next.Title));
+    }
 }

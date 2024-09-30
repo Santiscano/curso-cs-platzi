@@ -54,9 +54,17 @@ LinqQueries queries = new LinqQueries();
 // Console.WriteLine($"{bookMoreRecently.Title} - {bookMoreRecently.PublishedDate.ToShortDateString()}");
 
 //suma de paginas de libros entre 0 y 500
-Console.WriteLine($"Suma total de paginas: {queries.addPages()}");
+// Console.WriteLine($"Suma total de paginas: {queries.addPages()}");
 
 //Libros publicados despues del 2015
+// *uso de funciones
+Func<Book, bool> conditionWhere = (x => x.PublishedDate.Year > 2005 && x.Title != string.Empty);
+var titles1 = queries.titleBooksAftertwothousandfiveteenV1(conditionWhere);
+var titles2 = queries.titleBooksAftertwothousandfiveteenV2(conditionWhere);
+Console.WriteLine($"version 1: {titles1}");
+Console.WriteLine($"version 2: {titles2}");
+
+
 //el promedio de caracteres del los titulos de los libros
 //Libros publicados a partir del 2000 agrupados por ano
 //Diccionario de libros agrupados por primera letra del titulo
