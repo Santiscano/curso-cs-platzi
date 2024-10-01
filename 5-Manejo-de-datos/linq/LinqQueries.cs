@@ -47,12 +47,12 @@ public class LinqQueries
     public IEnumerable<Book> GetBooksMore250PagesAndInAction()
     {
         // extension method
-        //return this.booksCollections.Where(x => x.PageCount > 250 && x.Title.Contains("in Action") );
+        return this.booksCollections.Where(x => x.PageCount > 250 && x.Title.Contains("in Action") );
 
         // query expresion
-        return from l in this.booksCollections
-               where l.PageCount > 250 && l.Title.Contains("in Action")
-               select l;
+        //return from l in this.booksCollections
+        //       where l.PageCount > 250 && l.Title.Contains("in Action")
+        //       select l;
     }
 
     //public List<char> vocales = new List<char> { 'a', 'e', 'i', 'o', 'u' };
@@ -172,12 +172,62 @@ public class LinqQueries
             .Sum( t => t.PageCount);
     }
 
-    public string titleBooksAftertwothousandfiveteenV1(Func<Book, bool>where)
-        => string.Join(" - ",this.booksCollections.Where(where).Select(x=> x.Title));
-    
+    public string TitulosDeLibrosDespuesDel2015Concatenados()
+    {
+        return booksCollections
+                .Where(p => p.PublishedDate.Year > 2015)
+                .Aggregate("", (TitulosLibros, next) =>
+                {
+                    if (TitulosLibros != string.Empty)
+                        TitulosLibros += " - " + next.Title;
+                    else
+                        TitulosLibros += next.Title;
+
+                    return TitulosLibros;
+                });
+    }
+
+    public string titleBooksAfterTwoThousandFifteenV1(Func<Book, bool> where)
+        => string.Join(" - ", this.booksCollections.Where(where).Select(x => x.Title));
+
     public string titleBooksAftertwothousandfiveteenV2(Func<Book, bool> where)
     {
-        return this.booksCollections.Where(where).Aggregate("", 
-            (acc, next) => acc += (!string.IsNullOrEmpty(acc) ? $" - {next.Title}" : next.Title));
+        return this.booksCollections.Where(where).Aggregate("",
+            (acc, next) => acc + (!string.IsNullOrEmpty(acc) ? $" - {next.Title}" : next.Title));
+    }
+
+    public double Challenge()
+    {
+        return this.booksCollections
+            .Where(b => b.PageCount > 0)
+            .Average(b => b.PageCount);
+    }
+
+    public double AverageTitleLength()
+    {
+        return this.booksCollections
+            .Where(b => b.Title.Length > 0)
+            .Average(b => b.Title.Length);
+    }
+
+    public IEnumerable<IGrouping<int, Book>> BooksAfterTwoThousand()
+    {
+        return this.booksCollections
+            .Where(b => b.PublishedDate.Year >= 2000)
+            .GroupBy(b => b.PublishedDate.Year);
+    }
+
+    public ILookup<char, Book> DicctionaryTitlesBooks()
+    {
+        return this.booksCollections.ToLookup(b => b.Title[0], p => p);
+    }
+
+    public IEnumerable<Book> sentenceWithJoin()
+    {
+        var booksAfterTwoThousand = this.booksCollections.Where(b => b.PublishedDate.Year >= 2000);
+        var booksWithMoreFourhundredPages = this.booksCollections.Where(b => b.PageCount > 400);
+
+        return booksAfterTwoThousand
+            .Join(booksWithMoreFourhundredPages, b1 => b1.Title, b2 => b2.Title, (b1, b2) => b1);
     }
 }

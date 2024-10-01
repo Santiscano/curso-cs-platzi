@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Teclab\\Documents\\Educacion\\curso-C#-platzi\\5-Manejo-de-datos\\linq\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAwwE8AAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-28T15:59:38.291Z",
               "EditorCaption": ""
@@ -45,7 +45,7 @@
               "RelativeDocumentMoniker": "LinqQueries.cs",
               "ToolTip": "C:\\Users\\Teclab\\Documents\\Educacion\\curso-C#-platzi\\5-Manejo-de-datos\\linq\\LinqQueries.cs",
               "RelativeToolTip": "LinqQueries.cs",
-              "ViewState": "AgIAAM4AAAAAAAAAAAAmwOAAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAmwMMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-28T14:56:29.332Z",
               "EditorCaption": ""
@@ -60,7 +60,8 @@
               "RelativeToolTip": "Books.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-28T14:53:02.92Z"
+              "WhenOpened": "2024-09-28T14:53:02.92Z",
+              "EditorCaption": ""
             }
           ]
         }

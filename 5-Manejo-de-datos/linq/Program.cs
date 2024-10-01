@@ -58,23 +58,56 @@ LinqQueries queries = new LinqQueries();
 
 //Libros publicados despues del 2015
 // *uso de funciones
-Func<Book, bool> conditionWhere = (x => x.PublishedDate.Year > 2005 && x.Title != string.Empty);
-var titles1 = queries.titleBooksAftertwothousandfiveteenV1(conditionWhere);
-var titles2 = queries.titleBooksAftertwothousandfiveteenV2(conditionWhere);
-Console.WriteLine($"version 1: {titles1}");
-Console.WriteLine($"version 2: {titles2}");
+//Func<Book, bool> conditionWhere = (x => x.PublishedDate.Year > 2005 && x.Title != string.Empty);
+//var titles1 = queries.titleBooksAftertwothousandfiveteenV1(conditionWhere);
+//var titles2 = queries.titleBooksAftertwothousandfiveteenV2(conditionWhere);
+//Console.WriteLine($"version 1: {titles1}");
+//Console.WriteLine($"version 2: {titles2}");
 
+// Obtener el promedio del número de paginas que son mayores a cero
+//Console.Write( $"El promedio de numeros de paginas es: {queries.Challenge()}");
 
 //el promedio de caracteres del los titulos de los libros
+//Console.Write(queries.AverageTitleLength());
+
 //Libros publicados a partir del 2000 agrupados por ano
+//printGroup(queries.BooksAfterTwoThousand());
+
 //Diccionario de libros agrupados por primera letra del titulo
+//PrintDicctionary(queries.DicctionaryTitlesBooks(), 'A');
+
+// Libros filtrados con la clausula Join
+// PrintBooks(queries.sentenceWithJoin());
 
 
 
 void PrintBooks(IEnumerable<Book> listBooks)
 {
-     Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", "Title", "Num Pages", "Published Date");
+    Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", "Title", "Num Pages", "Published Date");
     foreach (var item in listBooks)
+    {
+        Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", item.Title, item.PageCount, item.PublishedDate.ToShortDateString());
+    }
+}
+
+void printGroup(IEnumerable<IGrouping<int, Book>> listBooks)
+{
+    foreach (var grupo in listBooks)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Grupo: {grupo.Key}");
+        Console.WriteLine("{0, -60}, {1, 15}, {2, 15}\n", "Title", "Num Pages", "Published Date");
+        foreach (var item in grupo)
+        {
+            Console.WriteLine("{0, -60}, {1, 15}, {2, 15}\n", item.Title, item.PageCount, item.PublishedDate.ToShortDateString());
+        }
+    }
+}
+
+void PrintDicctionary(ILookup<char, Book> listBooks, char letter)
+{
+    Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", "Title", "Num Pages", "Published Date");
+    foreach (var item in listBooks[letter])
     {
         Console.WriteLine("{0, -60} {1, 15} {2, 15}\n", item.Title, item.PageCount, item.PublishedDate.ToShortDateString());
     }
